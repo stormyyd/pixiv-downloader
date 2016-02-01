@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import argparse
 import getpass
 import json
 import math
 import os
-import re
-import sys
 import pixivpy3
 
 PIXIV_API = None
@@ -66,14 +65,22 @@ def make_aria2_file(data, file_name = "aria2_url.txt"):
     return True
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("id", help = "The ID of work or user.", nargs = "+", type = int)
+    group = parser.add_mutually_exclusive_group(required = True)
+    group.add_argument("-w", "--work", help = "Set ID type to work.", action = "store_true")
+    group.add_argument("-u", "--user", help = "Set ID type to user.", action = "store_true")
+    args = parser.parse_args()
     global PIXIV_API
     data = login_data()
     PIXIV_API = pixivpy3.PixivAPI()
     PIXIV_API.login(data["username"], data["password"])
-    if "illust_id" in sys.argv[1]:
-        make_aria2_file(work(int(re.findall("(?<=illust_id=)\d+", sys.argv[1])[0])))
+    if args.work:
+        for i in args.id:
+            make_aria2_file(work(i), "%d.aria2" % (i))
         return
-    make_aria2_file(user(int(re.findall("(?<=member\.php\?id=)\d+", sys.argv[1])[0])))
+    for i in args.id:
+        make_aria2_file(user(i), "%d.aria2" % (i))
 
 if __name__ == "__main__":
     main()
