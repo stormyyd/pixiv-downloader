@@ -28,7 +28,7 @@ def login_data():
 def work(work_id):
     work_data= [{"url": []}]
     json_data = PIXIV_API.works(work_id)
-    work_data[0]["title"] = json_data["response"][0]["title"]
+    work_data[0]["title"] = json_data["response"][0]["title"].replace(" ", "_")
     if json_data["response"][0]["is_manga"]:
         for i in json_data["response"][0]["metadata"]["pages"]:
             work_data[0]["url"].append(i["image_urls"]["large"])
@@ -47,7 +47,7 @@ def user(user_id):
                 user_data.append(work(i["id"])[0])
                 continue
             user_data.append({
-                "title": i["title"],
+                "title": i["title"].replace(" ", "_"),
                 "url": [i["image_urls"]["large"]]
             })
     return user_data
@@ -77,10 +77,10 @@ def main():
     PIXIV_API.login(data["username"], data["password"])
     if args.work:
         for i in args.id:
-            make_aria2_file(work(i), "%d.aria2" % (i))
+            make_aria2_file(work(i), "work_%d.aria2" % (i))
         return
     for i in args.id:
-        make_aria2_file(user(i), "%d.aria2" % (i))
+        make_aria2_file(user(i), "user_%d.aria2" % (i))
 
 if __name__ == "__main__":
     main()
