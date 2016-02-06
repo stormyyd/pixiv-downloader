@@ -58,7 +58,7 @@ def make_aria2_file(data, file_name = "aria2_url.txt"):
                     "  header=Referer: http://www.pixiv.net\n" \
                     "  continue=true\n" \
                     "  dir=(dir)\n"
-    with open(file_name, "w") as f:
+    with open(file_name, "w", encoding = "utf-8") as f:
         for i in data:
             for u in i["url"]:
                 f.write(aria2_content.replace("(url)", u).replace("(dir)", i["title"]))
