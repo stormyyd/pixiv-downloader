@@ -56,4 +56,4 @@ GitHub：[https://github.com/upbit/pixivpy](https://github.com/upbit/pixivpy)
 
 ## License
 
-本程序在 [Do What The Fuck You Want To Public License](https://github.com/yyd916529103/pixiv-downloader/blob/master/LICENSE) 授权下发布。
+本程序在 [Do What The Fuck You Want To Public License](https://github.com/stormyyd/pixiv-downloader/blob/master/LICENSE) 授权下发布。
